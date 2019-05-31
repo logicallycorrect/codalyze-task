@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { initialData } from "./actions";
+import Products from "./components/Products";
+import EditProduct from "./components/EditProduct";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import "./App.css";
+
+class App extends Component {
+  componentDidMount() {
+    this.props.dispatch(initialData());
+  }
+  setLoading;
+  render() {
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={Products} />
+          <Route
+            exact
+            path="/edit-product/:productId"
+            component={EditProduct}
+          />
+        </Switch>
+      </BrowserRouter>
+    );
+  }
 }
 
-export default App;
+export default connect()(App);
